@@ -1,0 +1,139 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import LabelEncoder
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression, RidgeClassifier
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.naive_bayes import GaussianNB
+from sklearn.neural_network import MLPClassifier
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import classification_report
+
+data = pd.read_csv("mushrooms.csv")
+data.head()
+
+
+classes = data['class'].value_counts()
+
+classes
+
+plt.bar('Edible', classes['e'])
+
+plt.bar('Poisonous', classes['p'])
+
+plt.show()
+
+
+x = data.loc[:, ['cap-shape', 'cap-color', 'ring-number', 'ring-type']]
+y = data.loc[:, 'class']
+
+
+
+ encoder = LabelEncoder()
+
+ for i in x.columns:
+  x[i] = encoder.fit_transform(x[i])
+
+
+  y = encoder.fit_transform(y)
+  
+  print(x)
+  
+  
+  print(y)
+  
+  
+  
+ x_train, x_test, y_train, y_test = train_test_split(x,y, test_size = 0.3)
+   
+ logistic_classifier_model = LogisticRegression()
+
+ ridge_classifier_model = RidgeClassifier()
+
+ decision_tree_model = DecisionTreeClassifier()
+
+ naive_bayes_model = GaussianNB()
+
+ neural_network_model = MLPClassifier()
+  
+  
+ logistic_classifier_model.fit(x_train, y_train)
+
+ ridge_classifier_model.fit(x_train, y_train)
+
+ decision_tree_model.fit(x_train, y_train)
+
+ naive_bayes_model.fit(x_train, y_train)
+
+ neural_network_model.fit(x_train, y_train)
+ 
+ 
+ logistic_pred = logistic_classifier_model.predict(x_test)
+ ridge_pred = ridge_classifier_model.predict(x_test)
+ tree_pred = decision_tree_model.predict(x_test)
+ naive_bayes_pred = naive_bayes_model.predict(x_test)
+ neural_network_pred = neural_network_model.predict(x_test)
+ 
+ 
+ 
+ logistic_report = classification_report(y_test, logistic_pred)
+ ridge_report = classification_report(y_test, ridge_pred)
+ tree_report = classification_report(y_test, tree_pred)
+ naive_bayes_report = classification_report(y_test, naive_bayes_pred)
+ neural_network_report = classification_report(y_test, neural_network_pred)
+  
+  
+print('**************Logistic Regression***************')
+print(logistic_report)
+
+
+print('**************Ridge Regression******************')
+print(ridge_report)
+
+
+print('****************Decision Tree*******************')
+print(tree_report)
+
+
+print('*************Naive Bayes*************************')
+print(naive_bayes_report)
+
+
+print('*************** Neural Network ******************')
+print(neural_network_report)
+  
+  
+  
+random_forest_model = RandomForestClassifier()
+random_forest_model.fit(x_train, y_train)
+random_forest_pred = random_forest_model.predict(x_test)
+
+
+
+random_forest_report = classification_report(y_test, random_forest_pred)
+
+print(random_forest_report)
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
